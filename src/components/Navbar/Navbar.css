@@ -1,0 +1,11 @@
+
+.nav-item{
+    transition: border .2s;
+}
+.nav-item:hover{
+    border: 2px solid rgb(0, 128, 255);
+    border-radius: 10px;
+}
+.logo{
+    width: 23.75rem;
+}

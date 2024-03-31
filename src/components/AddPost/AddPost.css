@@ -1,0 +1,10 @@
+.fa-xmark{
+    top: 1.25rem;
+    right: 1.25rem;
+}
+.add-post{
+    opacity: .8;
+}
+.add-post .addPost-inner{
+    opacity: 1;
+}
