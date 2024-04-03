@@ -55,12 +55,14 @@ export const NavContextProvider=({children})=>{
     }
 
     const hideNotiList=()=>{
+      console.log("✔✔");
       if(isOpen){
         setIsOpen(false)
-        document.querySelector(".inner-notifcation").classList.replace("d-flex","d-none")
+        document.querySelector(".inner-notifcation").classList.add("d-none")
+
       }else if(!isOpen){
         setIsOpen(true)
-        document.querySelector(".inner-notifcation").classList.replace("d-none","d-flex")
+        document.querySelector(".inner-notifcation").classList.remove("d-none")
       }
       
     }

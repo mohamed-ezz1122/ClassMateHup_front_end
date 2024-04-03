@@ -90,8 +90,13 @@
     
 }
 body{
-  padding-top:57.98px;
+  padding-left: 15rem;
 }
+@media (max-width: 599px) { 
+  body{
+    padding-left: 0;
+  }
+ }
 
 li{
   list-style: none;

@@ -13,6 +13,8 @@ import { SidebarContextProvider } from './components/Context/sidebarContext.jsx'
 
 import { NavContextProvider } from './components/Context/NavContext.jsx'
 import { UserContextProvider } from './components/Context/userContext.jsx'
+import Tasks from './components/Tasks/Tasks.jsx'
+import Massages from './components/Massages/Massages.jsx'
 
 function App() {
   
@@ -23,6 +25,8 @@ function App() {
       {path:'/subjects',element:<Subjects/>},
       {path:'/about',element:<Aboute/>},
       {path:'/profile',element:<Profile/>},
+      {path:'/tasks',element:<Tasks/>},
+      {path:'/massages',element:<Massages/>},
       ]},
       {path:'/logout',element:<LogOut/>},
       {path:'/logIn',element:<LogIn/>},

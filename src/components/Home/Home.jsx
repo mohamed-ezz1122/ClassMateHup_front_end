@@ -3,8 +3,9 @@ import style from './Home.moduls.css'
 import AddPost from '../AddPost/AddPost'
 import { navContext } from "../Context/NavContext.jsx"
 import { useContext } from "react"
-
-
+import { Fab } from "@mui/material"
+// import AddPost from '@mui/icons-material/AddPost'
+import AddIcon from '@mui/icons-material/Add';
 export const Home=()=>{
     const {showModel}=useContext(navContext)
 
@@ -15,12 +16,12 @@ export const Home=()=>{
     <div className="home row ">
     <Post/>
     
-    <button className="btn btn-primary justwidth addPost col-2   m-3 mb-5  " onClick={()=>{
+    
+    <Fab color="primary" aria-label="add" className=" justwidth addPost col-2 position-absolute      " onClick={()=>{
         showModel()
-    }}>
-    <i className="fa-solid fa-plus fs-5 pe-2"></i>
-    POST
-    </button>
+    }}> 
+  <AddIcon  />
+</Fab>
     </div>
     <AddPost/>
     </div>

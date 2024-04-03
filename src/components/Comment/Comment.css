@@ -1,13 +1,6 @@
-.Noti-imag{
+.comment-image{
     width: 2.75rem;
     height: 2.75rem;
     /* background: #000; */
     border-radius: 100%;
-    
-
-    
-}
-.inner-notifcation{
-    top: 4.5rem;
-    right: .9375rem;
 }
