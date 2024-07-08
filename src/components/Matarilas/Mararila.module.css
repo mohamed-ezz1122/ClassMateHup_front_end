@@ -1,0 +1,18 @@
+.layer{
+    background:rgba(1, 1, 1, .6);
+    color: var(--bs-black);
+    display: none;
+    transition: all 0.3s;
+    border-radius:10px ;
+    color: var(--bs-white);
+}
+.pdf{
+    border: 2px dashed var(--bs-gray-500);
+    transition: all 0.5s;
+}
+
+.pdf:hover .layer{
+
+display: flex;
+
+}

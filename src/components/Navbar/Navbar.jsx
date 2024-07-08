@@ -6,9 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,25 +14,71 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import styled from '@emotion/styled';
-import { Badge, InputBase, Link, Menu, MenuItem, alpha } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Badge, InputBase, Link, Menu, MenuItem, alpha, styled, Button } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { AppRegistration, Home, Info, Logout, Subject, Task } from '@mui/icons-material';
+import { AppRegistration, Home, Info, Logout, Mode, Mood, Subject, Task } from '@mui/icons-material';
 import { navContext } from '../Context/NavContext.jsx';
 import Notifcation from '../Notifcation/Notifcation.jsx';
+import { userContext } from '../Context/userContext.jsx';
+import Acount from '../Acount/Acount.jsx'
+import SearchIcon from '@mui/icons-material/Search';
+import { MainContext } from '../Context/MainContext.jsx';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+
 
 const drawerWidth = 240;
 
 
 function Navbar(props) {
-   const {hideNotiList} = React.useContext(navContext)
+  const {logOut,ConfirmTheSlit,isAdmin}=React.useContext(userContext)
+   const {hideNotiList,runToggle} = React.useContext(navContext)
+   const {repaceMode}=React.useContext(MainContext)
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-
+  const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  }));
+  
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }));
+  
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    width: '100%',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      [theme.breakpoints.up('sm')]: {
+        width: '12ch',
+        '&:focus': {
+          width: '20ch',
+        },
+      },
+    },
+  }));
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -77,6 +121,7 @@ function Navbar(props) {
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
+    sx={{display:'flex',alignItems:"center",justifyContent:"center"}}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -91,12 +136,10 @@ function Navbar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link sx={{color:"inherit"}} underline='none' href={"#/profile"}>
-        Profile
-      </Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+     
+      <MenuItem onClick={()=>{runToggle(),handleMenuClose()}}> 
+       <Acount />
+</MenuItem>
     </Menu>
   );
 
@@ -117,14 +160,14 @@ function Navbar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     > 
-      <Link sx={{color:"inherit" ,display:"flex",alignItems:"center",justifyContent:"center"}} underline='none' href={"#/massages"}>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
+      <MenuItem sx={{color:"inherit" ,display:"flex",alignItems:"center",justifyContent:"center"}} >
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={repaceMode}>
+          
+            <Brightness4Icon />
+          
         </IconButton>
-        <p>Messages</p>
-      </Link>
+        <p></p>
+      </MenuItem>
       <MenuItem onClick={()=>{hideNotiList()} }>
         <IconButton
           size="large"
@@ -135,7 +178,7 @@ function Navbar(props) {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p></p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -147,7 +190,7 @@ function Navbar(props) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p></p>
       </MenuItem>
     </Menu>
   );
@@ -157,21 +200,35 @@ function Navbar(props) {
       <Toolbar />
       <Divider />
       <List>
-        {['Home', 'Info'].map((text, index) => (
-          <Link underline="none" sx={{color:'inherit'}} href={index % 2 === 0 ? "#/"  : "#/about"} key={text} disablePadding>
+      {isAdmin?
+      ['Home'].map((text, index) => (
+          <Link underline="none" sx={{color:'inherit'}} href={index % 2 === 0 ? "#/home"  : "#/about"} key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <Home /> : <Info  />}
+                <Home /> 
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </Link>
-        ))}
+        ))
+      
+      :
+      ['Home', 'Info'].map((text, index) => (
+          <Link underline="none" sx={{color:'inherit'}} href={index % 2 === 0 ? "#/home"  : "#/about"} key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <Home /> :  <Info  />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </Link>
+        ))}  
+      
       </List>
       <Divider />
       <List>
-        {['Subjects', 'Tasks',].map((text, index) => (
-          <Link underline="none" sx={{color:'inherit'}} href={index % 2 === 0 ? "#/subjects"  : "#/tasks"} key={text} disablePadding>
+        {['Subjects', 'Materials Subject',].map((text, index) => (
+          <Link underline="none" sx={{color:'inherit'}} href={index % 2 === 0 ? "#/subjects"  : "#/subMaterials"} key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 {index % 2 === 0 ? <Subject />  : <Task />}
@@ -182,12 +239,25 @@ function Navbar(props) {
           </Link>
         ))}
       </List>
-      <List >
-        {['Logout',"Register"].map((text, index) => (
-          <Link underline="none" sx={{color:'inherit'}} href={index % 2 === 0 ? "#/logout"  : "#/register"} key={text}  disablePadding>
+      <List>
+        {isAdmin? "" :['Specialties'].map((text, index) => (
+          <Link underline="none" sx={{color:'inherit'}} href= "#/specialties"   key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <Logout />  : <AppRegistration />}
+                <Subject /> 
+                
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </Link>
+        ))}
+      </List>
+      <List >
+        {['Logout'].map((text, index) => (
+          <Link  underline="none" sx={{color:'inherit'}} href={"#/logout" } key={text}  disablePadding>
+            <ListItemButton onClick={()=>{ConfirmTheSlit()}}>
+              <ListItemIcon >
+                { <Logout  />  }
                 
               </ListItemIcon>
               <ListItemText primary={text} />
@@ -201,14 +271,18 @@ function Navbar(props) {
   // Remove this const when copying and pasting into your project.
   const container = window !== undefined ? () => window().document.body : undefined;
 
-  return (
-    <Box sx={{flexGrow:1 }}>
-      <CssBaseline />
+  
+
+  return <>    
+  <Box sx={{flexGrow:1 }}>
+      {/* <CssBaseline /> */}
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          
+          
         }}
       >
         <Toolbar>
@@ -217,7 +291,7 @@ function Navbar(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: 'none' } ,}}
           >
             <MenuIcon />
           </IconButton>
@@ -225,22 +299,31 @@ function Navbar(props) {
             ClassMateHup
           </Typography>
 
-
          
          
+          
           
 
           {/* icon norifcation */}
           <Box sx={{ flexGrow: 1 }} />
-
+          <Search sx={{marginLeft:"100px"}}>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-             <Link sx={{color:"inherit"}} underline='none' href={"#/massages"}>
-             <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-             </Link>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit"onClick={repaceMode}>
+             
+             
+                <Brightness4Icon/>
+                
+              
+            
             </IconButton>
             <IconButton
               size="large"
@@ -263,10 +346,12 @@ function Navbar(props) {
             >
               <AccountCircle />
             </IconButton>
+            
           </Box>
 
           
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+        
             <IconButton
               size="large"
               aria-label="show more"
@@ -278,16 +363,19 @@ function Navbar(props) {
               <MoreIcon />
             </IconButton>
           </Box>
+          
 
         </Toolbar>
       </AppBar>
 
       {/* saide bar */}
+      
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
+       
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
@@ -315,6 +403,7 @@ function Navbar(props) {
         >
           {drawer}
         </Drawer>
+       
       </Box>
       <Box
         component="main"
@@ -329,9 +418,18 @@ function Navbar(props) {
         
       </Box>
       <Notifcation/>
+     
 
     </Box>
-  );
+
+
+
+    {/* <=========================side bar acount========================> */}
+
+  
+
+    </>
+
 }
 
 

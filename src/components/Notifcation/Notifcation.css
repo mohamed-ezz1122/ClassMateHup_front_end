@@ -11,3 +11,23 @@
     top: 4.5rem;
     right: .9375rem;
 }
+
+.navigate_nav{
+   
+    
+    margin-top: 28px;
+    height: 37.5rem;
+    overflow-y: scroll;
+    &::-webkit-scrollbar{
+        width: .25rem;
+    }
+    &::-webkit-scrollbar-thumb{
+        background-color: var(--clr-pumpkin);
+        border-radius: 1.125rem;
+    }
+    &::-webkit-scrollbar-track{
+        box-shadow:  inset 0px 0px 6px rgba(0, 0, 0, 0.3);
+        border-radius: 1.125rem;
+        
+    }
+}

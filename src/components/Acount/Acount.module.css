@@ -1,0 +1,26 @@
+li{
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18,5px;
+    padding-block: 20px;
+    padding-inline: 5px;
+}
+li:hover{
+    background: gray;
+    color: #eee;
+}
+.delete{
+    color: red;
+}
+.delete:hover{
+    color: #eee;
+    background: red;
+}
+i{
+    margin-right: 10px;
+}
+.mainAcount{
+    margin: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
+}

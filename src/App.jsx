@@ -9,41 +9,69 @@ import Register from './components/Register/Register.jsx'
 import Subjects from './components/Subjects/Subjects.jsx'
 import Profile from './components/Profile/Profile.jsx'
 import Aboute from './components/Aboute/Aboute.jsx'
-import { SidebarContextProvider } from './components/Context/sidebarContext.jsx'
 
-import { NavContextProvider } from './components/Context/NavContext.jsx'
+import { NavContextProvider, navContext } from './components/Context/NavContext.jsx'
 import { UserContextProvider } from './components/Context/userContext.jsx'
-import Tasks from './components/Tasks/Tasks.jsx'
-import Massages from './components/Massages/Massages.jsx'
+
+import ProtectedRoute from './components/protectedRoute/protectedRoute.jsx'
+import { PostcontextProvider } from './components/Context/PostContect.jsx'
+
+
+import { MainContext, MainContextProvider } from './components/Context/MainContext.jsx'
+import Matarilas from './components/Matarilas/Matarilas.jsx'
+import SubMatarilas from './components/Sub-Matarilas/SubMatarilas.jsx'
+import Specialties from './components/Specialties/Specialties.jsx'
+import { SupContext, SupContextProvider } from './components/Context/SupContext.jsx'
+import DoctorLogin from './components/LogIn/DoctorLogin.jsx'
+
 
 function App() {
+  // const {mode}=useContext(MainContext)
+  // console.log(mode);
+ 
   
   const routes=createHashRouter([
-    {path:"",element:<Layout/>,children:[
+    {path:"",element:
+    <ProtectedRoute>
+      <Layout/>
+
+    </ProtectedRoute>
+    ,children:[
       {path:'/home',element:<Home/>},
       {index:true,element:<Home/>},
       {path:'/subjects',element:<Subjects/>},
       {path:'/about',element:<Aboute/>},
       {path:'/profile',element:<Profile/>},
-      {path:'/tasks',element:<Tasks/>},
-      {path:'/massages',element:<Massages/>},
+      {path:'/subMaterials',element:<SubMatarilas/>},
+      {path:'/materials',element:<Matarilas/>},
+      {path:'/specialties',element:<Specialties/>},
       ]},
-      {path:'/logout',element:<LogOut/>},
+      {path:'/logout',element:<LogIn/>},
       {path:'/logIn',element:<LogIn/>},
+      {path:'/logInDr',element:<DoctorLogin/>},
       {path:'/register',element:<Register/>},
      
   ])
   
 
   
-  return <NavContextProvider>
+
+  
+  return <MainContextProvider>
+   
+  <NavContextProvider>
   <UserContextProvider>
-  <SidebarContextProvider>
+  <PostcontextProvider>
+    <SupContextProvider>
       <RouterProvider router={routes}></RouterProvider>
-      </SidebarContextProvider>
+      </SupContextProvider>
+      </PostcontextProvider>
       </UserContextProvider>
       </NavContextProvider>
-    
+
+      </MainContextProvider>
+      
+      // 
 }
 
 export default App

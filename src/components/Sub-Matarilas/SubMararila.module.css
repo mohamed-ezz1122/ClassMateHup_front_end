@@ -1,0 +1,20 @@
+
+.subject{
+    border: 2px solid var(--bs-gray-700);
+    border-radius: 10px;
+    padding-block: 20px;
+    position: relative;
+    /* color: var(--bs-dark); */
+    /* border-color:var(--bs-primary); */
+}
+.subject:hover{
+background:var(--bs-gray-500);
+color: var(--bs-light);
+}
+.icon{
+    top: 5px;
+    display: none;
+}
+.subject:hover .icon{
+    display: block;
+}

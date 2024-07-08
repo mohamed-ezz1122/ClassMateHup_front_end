@@ -1,0 +1,35 @@
+.sectionList{
+    height: 0px;
+    overflow: hidden;
+    transition: height var(--transitio-val);
+   
+    
+}
+
+.thBtn{
+   transition: all var(--transitio-val); 
+}
+.thBtn:hover .sectionList{
+  
+  transition: all var(--transitio-val);
+height:auto;
+
+}
+
+
+.supList li:hover{
+    background-color: #eee;
+    color: var(--clr-main);
+    /* transition:all 20s; */
+}
+
+
+.sectionList li:hover{
+    background-color: var(--clr-main);
+    color: #eee;
+    }
+
+    .subHome:hover{
+        background-color: inherit;
+
+    }

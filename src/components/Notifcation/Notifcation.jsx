@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 
 export default function Notifcation() {
   return (
-    <List className='inner-notifcation position-fixed  z-1 border rounded-3 shadow' sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List className='inner-notifcation navigate_nav position-fixed  z-1 border rounded-3 shadow' sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

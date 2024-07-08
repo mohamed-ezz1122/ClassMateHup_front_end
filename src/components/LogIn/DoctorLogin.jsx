@@ -5,11 +5,12 @@ import { userContext } from "../Context/userContext.jsx";
 import { useNavigate} from 'react-router-dom'
 import logo from '../../assets/Images/photo_2024-02-20_18-41-52.jpg'
 import { Link } from '@mui/material'
+import axios from "axios";
 
-export default function LogIn() {
+export default function DoctorLogin() {
 
   
-  
+  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const navegate=useNavigate()
   const {signInMethod,setToken,token,user, setUser,setIsAdmin}=useContext(userContext)
@@ -19,23 +20,27 @@ export default function LogIn() {
 
   async function submitRegister(values){
     setIsLoading(true)
-    console.log(values);
-    // console.log("values");
-    const data= await signInMethod(values)
-    setIsLoading(false)
-    console.log(data);
-
-    if(data.student.status==='Correct password')
-    {
-      console.log("✔");
-      localStorage.setItem("token",data.student.ID)
-      setToken(data.student.ID)
-      console.log(data.student);
-      setUser(data.student)
-      setIsAdmin(data.student.isAdmin)
+    // console.log(values);
+    const data = await axios.post("http://localhost:8080/doctor/signin",values)
+    .catch((error)=>{
+        // console.log(error.response.data.doctor.status );
+        setError(error.response.data.doctor.status)
+    })
+    // console.log(data);
+    if(data.status===200){
+      
+      setError(null)
+      setIsLoading(false)
+      // console.log(data.data.doctor);
+      localStorage.setItem("token",data.data.doctor.ID)
+      setToken(data.data.doctor.ID)
+      setUser(data.data.doctor.ID)
+      setIsAdmin(data.data.doctor.isAdmin)
       navegate('/')
+      // console.log("y");
     }
-  } 
+   
+  }
   // useEffect(() => {
     
   //   if(token) navegate('/')
@@ -49,10 +54,9 @@ export default function LogIn() {
       .required("email can't be required"),
     password: Yup.string()
       .required("password can't be required")
-      .min(8, "password must be 6 litter")
+      .min(6, "password must be 6 litter")
       .max(30, "password must be at mast 20 litter")
-      .matches(/^[A-Z]/, "password must start uper case litter"),
-   
+      
   });
   const formik = useFormik({
     initialValues: {
@@ -70,7 +74,7 @@ export default function LogIn() {
       <div className="form container m-auto vh-100 d-flex align-items-center flex-column gap-3 ">
       <img src={logo} className='w-50' alt="LOGO UNIVARSTY" />
         <h2 className="text-center h1 text-primary border-bottom  border-3 rounded-bottom-3 w-50 border-primary my-3 p-3">
-          Login Now{" "}
+         Hello Doctor Login Now{" "}
         </h2>
 
         <form
@@ -118,6 +122,11 @@ export default function LogIn() {
               ""
             )}
           </div>
+          {
+            error?<p className="alert-danger text-danger">
+                {error}
+            </p>:""
+          }
 
           
           
@@ -133,28 +142,7 @@ export default function LogIn() {
             </button>
           </div>
         </form>
-        <span className="me-2">you have email ?<Link
-          href="#/register"
-          variant="body1"
-          underline="hover"
-          target="_blank"
-          rel="noopener noreferrer"
-          
-        >
-          SignUp!
-        </Link>
-        </span> 
-        <span><Link
-          href="#/logInDr"
-          variant="body1"
-          underline="hover"
-          target="_blank"
-          rel="noopener noreferrer"
-          
-        >
-          Doctor!
-        </Link>
-        </span> 
+        
       </div>
     </>
   );

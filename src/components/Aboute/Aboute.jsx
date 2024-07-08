@@ -6,17 +6,25 @@ import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import './About.css'
+import { Helmet } from 'react-helmet';
 
 export default function About() {
   return (
+    
     <div className='about'>
+      <Helmet>
+        <meta name="description" content="about Accadimy" />
+      <title>
+        Info
+      </title>
+    </Helmet>
       <Accordion>
         <AccordionSummary
           expandIcon={<ArrowDownwardIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography sx={{fontSize:"20px",fontWeight:600}}>كلمة العميد : أ.د أمل فاروق</Typography>
+          <Typography sx={{fontSize:"20px",fontWeight:600}}>Prof. Dr.Dean’s  Amal Farouk  Speech: </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -25,7 +33,6 @@ export default function About() {
           </Typography>
         </AccordionDetails>
       </Accordion>
-
 
 
       <Accordion className='my-4'>
@@ -34,7 +41,7 @@ export default function About() {
           aria-controls="panel2-content"
           id="panel2-header"
         >
-            <Typography sx={{fontSize:"20px",fontWeight:600}} >اهداف الكلية</Typography>
+            <Typography sx={{fontSize:"20px",fontWeight:600}} >College Goals</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -51,7 +58,7 @@ export default function About() {
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          <Typography sx={{fontSize:"20px",fontWeight:600}}>رعاية الشباب</Typography>
+          <Typography sx={{fontSize:"20px",fontWeight:600}}>Youth Care</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>

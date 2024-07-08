@@ -9,3 +9,9 @@
 .logo{
     width: 23.75rem;
 }
+a:hover{
+    color: black;
+}
+.profile{
+    color: black;
+}

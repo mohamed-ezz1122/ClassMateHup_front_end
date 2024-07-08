@@ -1,16 +1,55 @@
 import { useFormik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import { userContext } from "../Context/userContext.jsx";
-
+import {useNavigate} from 'react-router-dom'
+// import Link from '@mui/material/Link'
+import logo from '../../assets/Images/photo_2024-02-20_18-41-52.jpg'
+import axios from "axios";
 export default function Register() {
+
+  const option=[
+    {lable:"first Year",value:1},
+    {lable:"Seacand Year",value:2},
+    {lable:"Theard Year",value:3},
+    {lable:"forist Year",value:4},
+  ]
+  const [error, setError] = useState(null)
  
-  const {sendDataToSigin}=useContext(userContext)
-  async function submitRegister(values){
-    // console.log(values);
-    
-    sendDataToSigin(values)
-  } 
+  const {getDataToRegister}=useContext(userContext)
+  const navigate= useNavigate()
+  
+    async function submitRegister(values){
+      console.log(values);
+  
+      const data  = await axios.post(
+        "http://127.0.0.1:8080/student/signup",
+        values
+      ).catch((error)=>{
+        console.log("account failed create try agin",error);
+        setError("account failed create try agin")
+
+      })
+      console.log("data",data)
+    // const data= await getDataToRegister(values)
+    //  console.log(data);
+     if(data.
+      status ===200){
+      console.log("ok✔");
+      navigate('/login')
+    }
+    } 
+  
+
+  //==========get selected value =========>
+    // const [selectValue, setSelectValue] = useState('')
+    // function handelSelectValue(event){
+    //   setSelectValue(event.ta)
+      
+    // }
+    // console.log(selectValue);
+
+
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
   let validationSchema = Yup.object({
@@ -18,7 +57,7 @@ export default function Register() {
       .required("name can't be required")
       .min(6, "name must be 6 litter")
       .max(20, "name must be at mast 20 litter"),
-    email: Yup.string()
+    mail: Yup.string()
       .email("enter valied email")
       .required("email can't be required"),
     password: Yup.string()
@@ -26,27 +65,28 @@ export default function Register() {
       .min(8, "password must be 6 litter")
       .max(30, "password must be at mast 20 litter")
       .matches(/^[A-Z]/, "password must start uper case litter"),
-      rePassword: Yup.string()
-            .oneOf([Yup.ref("password"), "repassword not matched password"])
-            .required("rePassword is required"),
-     phoneNumbers:Yup.string().required("phone number is required").matches(phoneRegExp,"plese enter valied number"),
+      // rePassword: Yup.string()
+      //       .oneOf([Yup.ref("password"), "repassword not matched password"])
+      //       .required("rePassword is required"),
+     phoneNumber:Yup.string().required("phone number is required").matches(phoneRegExp,"plese enter valied number"),
      age: Yup.number()
       .required("age can't be required")
       .min(18, "your age must be at lest 18 years")
       .max(80, "your age must be at mast 80 "),
 
-      //  academicYear: Yup.string().required("academicYear can't be required"),
+       acadmicyear: Yup.number().required("academicYear can't be required"),
 
   });
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      rePassword:"",
-      phoneNumbers:"",
-      age:"",
-      academicYear:"last year"
+      
+        mail: "",
+        name: "",
+        password: "",
+        acadmicyear: "",
+        age: "",
+        phoneNumber: ""
+      
     
       
     },
@@ -56,6 +96,8 @@ export default function Register() {
   return (
     <>
       <div className="form container m-auto vh-100 d-flex align-items-center flex-column gap-3 ">
+      
+      <img src={logo} alt="" />
         <h2 className="text-center h1 text-primary border-bottom  border-3 rounded-bottom-3 w-50 border-primary my-3 p-3">
         Register Now{" "}
         </h2>
@@ -85,20 +127,20 @@ export default function Register() {
              )}
            </div>
           <div className="col-md-6">
-            <label htmlFor="email" className="form-label">
+            <label htmlFor="mail" className="form-label">
               Email
             </label>
             <input
               type="email"
               className="form-control mb-2"
-              id="email"
-              value={formik.values.email}
+              id="mail"
+              value={formik.values.mail}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.errors.email && formik.touched.email ? (
+            {formik.errors.mail && formik.touched.mail ? (
               <p className="alert-danger bg-danger p-1 ps-3 rounded-2">
-                {formik.errors.email}
+                {formik.errors.mail}
               </p>
             ) : (
               ""
@@ -124,7 +166,7 @@ export default function Register() {
               ""
             )}
           </div>
-          <div className="col-md-6">
+          {/* <div className="col-md-6">
               <label htmlFor="rePassword" className="form-label">
                rePasswored
              </label>
@@ -144,22 +186,22 @@ export default function Register() {
              ) : (
                ""
              )}
-           </div>
+           </div> */}
            <div className="col-md-6">
-             <label htmlFor="phoneNumbers" className="form-label">
+             <label htmlFor="phoneNumber" className="form-label">
                phone
              </label>
              <input
-               type="number"
+               type="text"
                className="form-control mb-2"
-               id="phoneNumbers"
-               value={formik.values.phoneNumbers}
+               id="phoneNumber"
+               value={formik.values.phoneNumber}
                onChange={formik.handleChange}
                onBlur={formik.handleBlur}
              />
-             {formik.errors.phoneNumbers && formik.touched.phoneNumbers ? (
+             {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
                <p className="alert-danger bg-danger p-1 ps-3 rounded-2">
-                 {formik.errors.phoneNumbers}
+                 {formik.errors.phoneNumber}
                </p>
              ) : (
                ""
@@ -170,7 +212,7 @@ export default function Register() {
               Age
             </label>
             <input
-              type="text"
+              type="number"
               inputMode="numeric"
               className="form-control mb-2"
               id="age"
@@ -186,27 +228,25 @@ export default function Register() {
               ""
             )}
           </div>
-          {/* <div className="col-md-6">
-          <select className="form-select" aria-label=".form-select-lg example"
-          value={formik.values.academicYear}>
-            onChange={formik.handleChange}
-          <option selected> Select Your Acadimic Year </option>
-          <option value='first Year'>first Year</option>
-          <option value="Second Year">Second Year</option>
-          <option value="Third Year">Third Year</option>
-          <option value="last Year">last Year</option>
-          //'first Year','Second Year','Third Year','last Year'
-          {formik.errors.academicYear && formik.touched.academicYear ? (
-                      <p className="alert-danger bg-danger p-1 ps-3 rounded-2">
-                        {formik.errors.academicYear}
-                      </p>
-                    ) : (
-                      ""
-                    )}
-        </select>
-          </div> */}
-       
-          
+          <div className="col-md-12">
+           <select  className="form-select" id="acadmicyear" onChange={formik.handleChange} value={formik.values.acadmicyear}>
+
+            {
+              option.map((opth,index)=>(
+                <option  key={index} value={opth.value}>
+                  {opth.lable}
+                </option>
+              ))
+            }
+          </select> 
+        
+
+          </div>
+       {
+        error?<p className="alert-danger text-danger">
+          {error}
+        </p>:""
+       }
           
           
 
@@ -214,6 +254,7 @@ export default function Register() {
             <button disabled={!(formik.isValid&&formik.dirty)} type="submit" className="btn btn-info btn-Sigin text-white">
             Register
             </button>
+            {/*  */}
           </div>
         </form>
       </div>
